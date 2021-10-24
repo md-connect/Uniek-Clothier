@@ -19,7 +19,17 @@ if (!empty($_GET["action"])) {
 				$pid = $_GET["pid"];
 				$result = mysqli_query($conn, "SELECT * FROM products WHERE pd_id='$pid'");
 				while ($productByCode = mysqli_fetch_array($result)) {
-					$itemArray = array($productByCode["pd_id"] => array('name' => $productByCode["pd_name"], 'code' => $productByCode["pd_id"], 'quantity' => $_POST["quantity"], 'price' => $_POST["price"], 'image' => $productByCode["picture"]));
+					//Modification by Ifara
+					$price_one = $productByCode["size6_12_price"];
+					$price_two = $productByCode["size14_16_price"];
+					$size = $_POST['size'];
+					if($size >= 6 && $size <= 12){
+						$price = $price_one;
+					}else{
+						$price = $price_two;
+					}
+
+					$itemArray = array($productByCode["pd_id"] => array('name' => $productByCode["pd_name"], 'code' => $productByCode["pd_id"], 'quantity' => $_POST["quantity"], 'price' => $price, 'image' => $productByCode["picture"]));
 					if (!empty($_SESSION["cart_item"])) {
 						if (in_array($productByCode["pd_id"], array_keys($_SESSION["cart_item"]))) {
 							foreach ($_SESSION["cart_item"] as $k => $v) {
@@ -1104,19 +1114,19 @@ if (!empty($_GET["action"])) {
 
 											<div class="size-204 respon6-next">
 												<div class="rs1-select2 bor8 bg0">
-													<select class="js-select2" name="time">
+													<select class="js-select2" name="size">
 														<option>Choose an option</option>
-														<option>Size 6</option>
-														<option>Size 7</option>
-														<option>Size 8</option>
-														<option>Size 9</option>
-														<option>Size 10</option>
-														<option>Size 11</option>
-														<option>Size 12</option>
-														<option>Size 13</option>
-														<option>Size 14</option>
-														<option>Size 15</option>
-														<option>Size 16</option>														
+														<option value = 6>Size 6</option>
+														<option value = 7>Size 7</option>
+														<option value = 8>Size 8</option>
+														<option value = 9>Size 9</option>
+														<option value = 10>Size 10</option>
+														<option value = 11>Size 11</option>
+														<option value = 12>Size 12</option>
+														<option value = 13>Size 13</option>
+														<option value = 14>Size 14</option>
+														<option value = 15>Size 15</option>
+														<option value = 16>Size 16</option>														
 													</select>
 													<div class="dropDownSelect2"></div>
 												</div>
@@ -1130,7 +1140,7 @@ if (!empty($_GET["action"])) {
 
 											<div class="size-204 respon6-next">
 												<div class="rs1-select2 bor8 bg0">
-													<select class="js-select2" name="time">
+													<select class="js-select2" name="color">
 														<option>Choose an option</option>
 														<?php
 														$pdt_id="";
